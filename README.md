@@ -80,8 +80,8 @@ While the queue is not empty
 
 Complete the following tasks:
 
-1. Fork the this repo and enable github actions
-1. Update the `README.md` file so that the travis button points to your repo
+1. Fork this repo and enable github actions
+1. Update the `README.md` file so that the test case badge points to your repo
 1. Implement the `word_ladder`, `verify_word_ladder`, and `_adjacent` functions so that all test cases in `tests/test_main.py` pass
 
 If all test cases pass, you will get full credit.
