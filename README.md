@@ -73,6 +73,9 @@ While the queue is not empty
 1. The test cases take a long time to run, and you will not be efficient if you are re-running them all the time.
    Instead, use the `--last-failed` flag in pytest to skip the tests that you have previously passed and only run the failing tests.
 
+1. It is often useful to focus on only a single test case at a time.
+   The `-x` flag to pytest causes the tests to stop after the first failing test case.
+
 ## Tasks
 
 Complete the following tasks:
