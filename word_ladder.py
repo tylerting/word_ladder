@@ -1,6 +1,7 @@
 #!/bin/python3
 
 from collections import deque
+import copy
 
 def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     '''
@@ -29,24 +30,30 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     Whenever it is impossible to generate a word ladder between the two words,
     the function returns `None`.
     '''
-    dictionary = []
-    with open(dictionary_file, 'r') as f:
-        text = f.read()
-    if start_word not in dictionary or end_word not in dictionary:
+    lists = []
+    stack = []
+    stack.append(start_word)
+    word_queue = deque()
+    word_queue.append(stack)
+    if len(start_word) != len(end_word):
         return None
-    stack = [start_word]
-    word_queue = deque([stack])
-    while len(s) > 0:
-        stack = word_queue.popleft()
-        top_word = stack[-1]
-        for word in dictionary:
-            if _adjacent(top_word, word) is True:
+    if start_word == end_word:
+        return [start_word]
+    with open(dictionary_file, 'r') as x:
+        for word in x.readlines():
+            lists.append(word.strip('\n'))
+
+    while len(word_queue) > 0:
+        newstack = word_queue.popleft()
+        for word in set(lists):
+            if _adjacent(word, newstack[-1]):
                 if word == end_word:
-                    return stack + [word]
-                new_stack = stack.copy()
-                new_stack.append(word)
-                word_queue.append(new_stack)
-                dictionary.remove(word)
+                    newstack.append(word)
+                    return newstack
+                newerstack = copy.deepcopy(newstack)
+                newerstack.append(word)
+                word_queue.append(newerstack)
+                lists.remove(word)
     return None
 
 
@@ -60,6 +67,8 @@ def verify_word_ladder(ladder):
     >>> verify_word_ladder(['stone', 'shone', 'phony'])
     False
     '''
+    if not ladder:
+        return False
     for i in range(len(ladder) - 1):
         if not _adjacent(ladder[i], ladder[i+1]):
             return False
@@ -80,9 +89,9 @@ def _adjacent(word1, word2):
         return False
     count = 0
     for i in range(len(word1)):
-        if word1[i] == word2[i]:
+        if word1[i] != word2[i]:
             count += 1
-    if count == len(word1) - 1:
+    if count == 1:
         return True
     else:
         return False
